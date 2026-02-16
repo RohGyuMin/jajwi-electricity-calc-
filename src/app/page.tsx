@@ -258,6 +258,28 @@ export default function Home() {
                   </button>
                 ))}
               </div>
+              <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
+                <div className="text-xs font-semibold text-slate-700">누진구간 미리보기</div>
+                <div className="mt-2 relative h-3 overflow-hidden rounded-full bg-slate-100">
+                  <div
+                    className={`absolute h-full transition-all duration-500 ${
+                      bill.tier.tier === 1
+                        ? "bg-sky-400"
+                        : bill.tier.tier === 2
+                        ? "bg-blue-500"
+                        : "bg-indigo-500"
+                    }`}
+                    style={{
+                      width: `${Math.min((animatedUsage / 400) * 100, 100)}%`,
+                    }}
+                  />
+                </div>
+                <div className="mt-1 flex justify-between text-[10px] font-semibold text-slate-500">
+                  <span>0</span>
+                  <span>200</span>
+                  <span>400+</span>
+                </div>
+              </div>
               <div
                 className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
                   usageGap > 0
