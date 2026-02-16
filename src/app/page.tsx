@@ -81,10 +81,10 @@ export default function Home() {
 
   const tierColor =
     bill.tier.tier === 1
-      ? "text-emerald-700 bg-emerald-50"
+      ? "text-sky-700 bg-sky-50"
       : bill.tier.tier === 2
-      ? "text-amber-700 bg-amber-50"
-      : "text-rose-700 bg-rose-50";
+      ? "text-blue-700 bg-blue-50"
+      : "text-indigo-700 bg-indigo-50";
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-sky-50 text-slate-900">
@@ -176,9 +176,9 @@ export default function Home() {
               <div
                 className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
                   usageGap > 0
-                    ? "bg-rose-100 text-rose-700"
+                    ? "bg-indigo-100 text-indigo-700"
                     : usageGap < 0
-                    ? "bg-emerald-100 text-emerald-700"
+                    ? "bg-sky-100 text-sky-700"
                     : "bg-slate-200 text-slate-700"
                 }`}
               >
@@ -190,7 +190,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-sky-200 bg-gradient-to-br from-sky-500 to-blue-600 p-6 text-white shadow-lg">
+          <div className="rounded-3xl border border-sky-200 bg-gradient-to-br from-sky-500 to-sky-700 p-6 text-white shadow-lg">
             <div className="text-sm font-semibold text-sky-100">이번 달 예상 청구액</div>
             <div className="mt-1 text-5xl font-extrabold">
               {bill.total.toLocaleString()}
@@ -226,10 +226,10 @@ export default function Home() {
               <div
                 className={`absolute h-full transition-all duration-500 ${
                   bill.tier.tier === 1
-                    ? "bg-emerald-500"
+                    ? "bg-sky-400"
                     : bill.tier.tier === 2
-                    ? "bg-amber-500"
-                    : "bg-rose-500"
+                    ? "bg-blue-500"
+                    : "bg-indigo-500"
                 }`}
                 style={{ width: `${Math.min((safeUsage / 500) * 100, 100)}%` }}
               />
@@ -268,13 +268,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-emerald-900">절약 시뮬레이터</h2>
-            <p className="mt-2 text-sm text-emerald-800">
+          <div className="rounded-2xl border border-sky-200 bg-sky-50 p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-sky-900">절약 시뮬레이터</h2>
+            <p className="mt-2 text-sm text-sky-800">
               절약 목표를 조절해 이번 달 절감 예상액을 확인하세요.
             </p>
             <label className="mt-4 block">
-              <span className="text-sm font-medium text-emerald-900">
+              <span className="text-sm font-medium text-sky-900">
                 절약 목표: <b>{reduceAmount}kWh</b> 감소
               </span>
               <input
@@ -282,20 +282,20 @@ export default function Home() {
                 min="0"
                 max={Math.min(safeUsage, 100)}
                 step="5"
-                className="mt-2 w-full accent-emerald-500"
+                className="mt-2 w-full accent-sky-500"
                 value={reduceAmount}
                 onChange={(e) => setReduceAmount(Number(e.target.value))}
               />
             </label>
-            <div className="mt-4 rounded-xl border border-emerald-200 bg-white p-4 text-slate-900">
-              <div className="text-sm font-medium text-emerald-700">{reduceAmount}kWh 줄이면</div>
-              <div className="mt-1 text-4xl font-extrabold text-emerald-700">
+            <div className="mt-4 rounded-xl border border-sky-200 bg-white p-4 text-slate-900">
+              <div className="text-sm font-medium text-sky-700">{reduceAmount}kWh 줄이면</div>
+              <div className="mt-1 text-4xl font-extrabold text-sky-700">
                 {savings.toLocaleString()}원
               </div>
               <div className="mt-2 text-sm text-slate-600">
                 {safeUsage}kWh → {reducedUsage}kWh ({reducedBill.tier.tierName})
               </div>
-              <div className="mt-1 text-sm font-semibold text-emerald-700">
+              <div className="mt-1 text-sm font-semibold text-sky-700">
                 예상 요금의 약 {savingsRate}% 절감
               </div>
             </div>
@@ -336,9 +336,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-amber-900">절약 필수템</h2>
-            <p className="mt-2 text-sm text-amber-900">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-slate-900">절약 필수템</h2>
+            <p className="mt-2 text-sm text-slate-600">
               원하는 제품을 눌러 바로 확인하세요.
             </p>
             <div className="mt-4 grid gap-3">
@@ -348,24 +348,24 @@ export default function Home() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="group rounded-xl border border-amber-200 bg-white p-4 transition hover:border-amber-300 hover:shadow-sm"
+                  className="group rounded-xl border border-slate-200 bg-white p-4 transition hover:border-sky-300 hover:shadow-sm"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="font-semibold text-slate-900">{item.name}</div>
                       <div className="mt-1 text-xs text-slate-500">{item.desc}</div>
                     </div>
-                    <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">
+                    <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700">
                       {item.price}
                     </span>
                   </div>
-                  <div className="mt-3 inline-flex items-center rounded-lg bg-amber-400 px-3 py-2 text-xs font-bold text-slate-900 transition group-hover:bg-amber-500">
+                  <div className="mt-3 inline-flex items-center rounded-lg bg-sky-600 px-3 py-2 text-xs font-bold text-white transition group-hover:bg-sky-700">
                     구매 링크 열기
                   </div>
                 </a>
               ))}
             </div>
-            <p className="mt-3 text-xs text-amber-800">* 제휴 링크가 적용될 수 있습니다.</p>
+            <p className="mt-3 text-xs text-slate-500">* 제휴 링크가 적용될 수 있습니다.</p>
           </div>
         </div>
 
