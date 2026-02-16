@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://jajwi-electricity-calc-rs7h.vercel.app"),
   title: "자취 전기세 계산기 | 원룸 전기요금 누진구간 계산",
   description:
     "전기 사용량(kWh)만 입력하면 자취 전기세를 바로 계산합니다. 원룸 전기요금 누진구간 확인, 절약 시뮬레이션까지 한번에.",
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
     title: "자취 전기세 계산기 | 원룸 전기요금 계산",
     description:
       "전기 사용량(kWh)만 입력하면 자취 전기세를 바로 계산합니다.",
+    url: "https://jajwi-electricity-calc-rs7h.vercel.app",
     type: "website",
     locale: "ko_KR",
   },

@@ -15,7 +15,7 @@ const PRODUCT_ITEMS = [
     name: "단열 커튼",
     desc: "실내 열손실 감소, 체감온도 유지",
     price: "15,000원대",
-    href: "https://www.coupang.com/np/search?q=%EB%8B%A8%EC%97%B4+%EC%BB%A4%ED%8A%BC",
+    href: "https://link.coupang.com/a/dNC4Zo",
   },
   {
     name: "전기장판",
@@ -128,10 +128,10 @@ export default function Home() {
           </nav>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid items-start gap-5 lg:grid-cols-[1.05fr_0.95fr]">
           <div
             id="calculator"
-            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+            className="min-w-0 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
           >
             <span className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-700">
               원룸 전기요금 빠른 계산
@@ -190,11 +190,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-300 bg-gradient-to-br from-slate-700 to-slate-800 p-6 text-white shadow-lg">
+          <div className="min-w-0 rounded-3xl border border-slate-300 bg-gradient-to-br from-slate-700 to-slate-800 p-6 text-white shadow-lg">
             <div className="text-sm font-semibold text-slate-200">이번 달 예상 청구액</div>
-            <div className="mt-1 text-5xl font-extrabold">
+            <div className="mt-1 break-all text-4xl leading-tight font-extrabold sm:text-5xl">
               {bill.total.toLocaleString()}
-              <span className="ml-2 text-2xl font-semibold">원</span>
+              <span className="ml-2 text-xl font-semibold sm:text-2xl">원</span>
             </div>
             <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-800">
               <span className={`rounded-full px-2 py-0.5 ${tierColor} font-semibold`}>
@@ -202,7 +202,7 @@ export default function Home() {
               </span>
               <span>{bill.tier.range}</span>
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
+            <div className="mt-4 grid grid-cols-1 gap-3 text-xs sm:grid-cols-2">
               <div className="rounded-xl bg-white/12 p-3">
                 <div className="text-slate-200">전력량 요금</div>
                 <div className="mt-1 text-base font-bold text-white">
@@ -338,8 +338,11 @@ export default function Home() {
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900">절약 필수템</h2>
-            <p className="mt-2 text-sm text-slate-600">
-              원하는 제품을 눌러 바로 확인하세요.
+            <p className="mt-2 text-sm font-medium text-slate-700">
+              이번 달 난방비 줄이기, 필요한 제품부터 바로 준비하세요.
+            </p>
+            <p className="mt-1 text-xs text-slate-500">
+              지금 확인하고 비교하면 다음 고지서에서 체감 차이가 납니다.
             </p>
             <div className="mt-4 grid gap-3">
               {PRODUCT_ITEMS.map((item) => (
@@ -360,12 +363,14 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="mt-3 inline-flex items-center rounded-lg bg-sky-600 px-3 py-2 text-xs font-bold text-white transition group-hover:bg-sky-700">
-                    구매 링크 열기
+                    최저가 확인하고 바로 구매하기
                   </div>
                 </a>
               ))}
             </div>
-            <p className="mt-3 text-xs text-slate-500">* 제휴 링크가 적용될 수 있습니다.</p>
+            <p className="mt-3 text-xs text-slate-500">
+              본 섹션은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받을 수 있습니다.
+            </p>
           </div>
         </div>
 
