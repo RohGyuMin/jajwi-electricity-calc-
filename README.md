@@ -9,7 +9,7 @@
 - 누진구간(1/2/3단계) 및 다음 구간까지 남은 사용량 표시
 - 지난달 대비 이번 달 예상 전기세 비교
 - 절약 목표(kWh) 기반 절감액/연간 절약액 시뮬레이션
-- AdSense 광고 컴포넌트 및 `ads.txt` 라우트 제공
+- AdSense 광고 컴포넌트 및 `public/ads.txt` 제공
 
 ## 기술 스택
 
@@ -45,15 +45,16 @@ NEXT_PUBLIC_BASE_URL=https://your-domain.com
 ## AdSense 연결 체크리스트
 
 1. 로컬/배포 환경에 `NEXT_PUBLIC_ADSENSE_CLIENT_ID` 설정
-2. 재배포
-3. `https://your-domain.com/ads.txt` 확인
-4. 아래 형식으로 노출되는지 확인
+2. `public/ads.txt`에서 `pub-xxxxxxxxxxxxxxxx`를 실제 publisher ID로 교체
+3. 재배포
+4. `https://your-domain.com/ads.txt` 확인
+5. 아래 형식으로 노출되는지 확인
 
 ```txt
 google.com, pub-xxxxxxxxxxxxxxxx, DIRECT, f08c47fec0942fa0
 ```
 
-5. 페이지 소스에서 아래 항목 확인
+6. 페이지 소스에서 아래 항목 확인
 - `meta name="google-adsense-account"`
 - `adsbygoogle.js?client=ca-pub-...`
 
@@ -72,4 +73,3 @@ Vercel 배포를 기준으로, 환경변수를 먼저 등록한 뒤 배포하세
 
 - `Project Settings -> Environment Variables`
 - Production에 `NEXT_PUBLIC_ADSENSE_CLIENT_ID` 설정 필수
-
