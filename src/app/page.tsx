@@ -49,6 +49,8 @@ const FAQ_ITEMS = [
   },
 ];
 
+const ONE_ROOM_AVERAGE_USAGE = 220;
+
 export default function Home() {
   const [usage, setUsage] = useState(250); // 월간 사용량 (kWh)
   const [reduceAmount, setReduceAmount] = useState(30); // 절약 목표량
@@ -59,6 +61,10 @@ export default function Home() {
   const reducedBill = calculateBill(reducedUsage);
   const savings = calculateSavings(safeUsage, reducedUsage);
   const savingsRate = bill.total > 0 ? Math.round((savings / bill.total) * 100) : 0;
+  const usageGap = safeUsage - ONE_ROOM_AVERAGE_USAGE;
+  const usageGapRate = Math.round(
+    (Math.abs(usageGap) / ONE_ROOM_AVERAGE_USAGE) * 100
+  );
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -91,8 +97,31 @@ export default function Home() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
+        <div className="mb-5 flex flex-wrap gap-2">
+          <a
+            href="#calculator"
+            className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 hover:border-cyan-300/60 hover:text-cyan-200"
+          >
+            계산기
+          </a>
+          <a
+            href="#saving-tips"
+            className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 hover:border-cyan-300/60 hover:text-cyan-200"
+          >
+            절약팁
+          </a>
+          <a
+            href="#faq"
+            className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200 hover:border-cyan-300/60 hover:text-cyan-200"
+          >
+            FAQ
+          </a>
+        </div>
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-sm sm:p-8">
+          <div
+            id="calculator"
+            className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-sm sm:p-8"
+          >
             <div className="mb-4 inline-flex rounded-full border border-cyan-300/40 bg-cyan-400/10 px-3 py-1 text-xs font-semibold text-cyan-200">
               원룸 전기요금 빠른 계산
             </div>
@@ -135,6 +164,20 @@ export default function Home() {
                   </button>
                 ))}
               </div>
+              <div
+                className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                  usageGap > 0
+                    ? "bg-rose-400/15 text-rose-200"
+                    : usageGap < 0
+                    ? "bg-emerald-400/15 text-emerald-200"
+                    : "bg-slate-400/20 text-slate-200"
+                }`}
+              >
+                원룸 평균(220kWh) 대비{" "}
+                {usageGap === 0
+                  ? "동일"
+                  : `${usageGap > 0 ? "+" : "-"}${Math.abs(usageGap)}kWh (${usageGapRate}%)`}
+              </div>
             </div>
           </div>
 
@@ -167,7 +210,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mb-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
+        <div id="saving-tips" className="mb-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
             <h2 className="text-lg font-semibold text-white">누진구간 현황</h2>
             <div className="mt-4 relative h-8 overflow-hidden rounded-full bg-slate-800">
@@ -348,7 +391,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div id="faq" className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-lg font-semibold text-white">자주 묻는 질문</h2>
           <div className="mt-4 space-y-3">
             {FAQ_ITEMS.map((item) => (
@@ -373,7 +416,7 @@ export default function Home() {
         </div>
 
         <footer className="mt-10 space-y-1 text-center text-xs text-slate-400">
-          <div>요금 계산은 한국전력 주거용 저압 요금표(2024년 기준)를 따릅니다.</div>
+          <div>요금 계산은 한국전력 주거용 저압 요금표(2026년 2월 확인 기준)를 따릅니다.</div>
           <div>실제 청구 금액과 일부 차이가 있을 수 있습니다.</div>
           <div className="mt-3 text-slate-500">
             © 2026 자취전기세 계산기 | 문의: contact@example.com
