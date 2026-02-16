@@ -294,16 +294,19 @@ export default function Home() {
                   ? "동일"
                   : `${usageGap > 0 ? "+" : "-"}${Math.abs(usageGap)}kWh (${usageGapRate}%)`}
               </div>
-              <div className="mt-3 rounded-xl border border-slate-200 bg-white p-3">
-                <div className="text-xs font-semibold text-slate-700">kWh 확인 방법</div>
-                <p className="mt-1 text-xs leading-5 text-slate-600">
+              <div className="mt-3 rounded-2xl border border-sky-200 bg-sky-50 p-4">
+                <div className="flex items-center gap-2 text-xs font-semibold text-sky-800">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white">?</span>
+                  kWh 확인 방법
+                </div>
+                <p className="mt-2 text-xs leading-5 text-slate-700">
                   한전ON 앱, 한전 사이버지점, 전기요금 고지서에서 월 사용량(kWh)을 확인할 수 있습니다.
                 </p>
                 <a
                   href="https://cyber.kepco.co.kr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-slate-700"
+                  className="mt-3 inline-flex items-center gap-1 rounded-full bg-sky-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-800"
                 >
                   한전에서 사용량 확인
                 </a>
