@@ -64,11 +64,17 @@ export default function RootLayout({
         )}
         {/* Google AdSense */}
         {ADSENSE_CLIENT_ID && (
-          <Script
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-          />
+          <>
+            <meta
+              name="google-adsense-account"
+              content={ADSENSE_CLIENT_ID}
+            />
+            <Script
+              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+              strategy="afterInteractive"
+              crossOrigin="anonymous"
+            />
+          </>
         )}
       </head>
       <body
