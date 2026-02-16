@@ -187,6 +187,20 @@ export default function Home() {
                   ? "동일"
                   : `${usageGap > 0 ? "+" : "-"}${Math.abs(usageGap)}kWh (${usageGapRate}%)`}
               </div>
+              <div className="mt-3 rounded-xl border border-slate-200 bg-white p-3">
+                <div className="text-xs font-semibold text-slate-700">kWh 확인 방법</div>
+                <p className="mt-1 text-xs leading-5 text-slate-600">
+                  한전ON 앱, 한전 사이버지점, 전기요금 고지서에서 월 사용량(kWh)을 확인할 수 있습니다.
+                </p>
+                <a
+                  href="https://cyber.kepco.co.kr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-slate-700"
+                >
+                  한전에서 사용량 확인
+                </a>
+              </div>
             </div>
           </div>
 
@@ -231,13 +245,12 @@ export default function Home() {
                     ? "bg-blue-500"
                     : "bg-indigo-500"
                 }`}
-                style={{ width: `${Math.min((safeUsage / 500) * 100, 100)}%` }}
+                style={{ width: `${Math.min((safeUsage / 400) * 100, 100)}%` }}
               />
               <div className="absolute inset-0 flex items-center justify-between px-3 text-xs font-semibold text-slate-600">
                 <span>0</span>
                 <span>200</span>
-                <span>400</span>
-                <span>500+</span>
+                <span className="font-bold text-indigo-700">400+</span>
               </div>
             </div>
             {bill.nextTierRemaining !== null && (
@@ -295,8 +308,10 @@ export default function Home() {
               <div className="mt-2 text-sm text-slate-600">
                 {safeUsage}kWh → {reducedUsage}kWh ({reducedBill.tier.tierName})
               </div>
-              <div className="mt-1 text-sm font-semibold text-sky-700">
-                예상 요금의 약 {savingsRate}% 절감
+              <div className="mt-2">
+                <span className="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-bold text-indigo-700">
+                  약 {savingsRate}% 절감
+                </span>
               </div>
             </div>
           </div>
@@ -401,8 +416,12 @@ export default function Home() {
         <div id="faq" className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold">자주 묻는 질문</h2>
           <div className="mt-4 space-y-3">
-            {FAQ_ITEMS.map((item) => (
-              <details key={item.question} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            {FAQ_ITEMS.map((item, index) => (
+              <details
+                key={item.question}
+                open={index === 0}
+                className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+              >
                 <summary className="cursor-pointer text-sm font-semibold text-slate-900">
                   {item.question}
                 </summary>
