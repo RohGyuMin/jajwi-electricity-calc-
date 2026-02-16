@@ -190,27 +190,27 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-sky-200 bg-gradient-to-br from-sky-500 to-sky-700 p-6 text-white shadow-lg">
-            <div className="text-sm font-semibold text-sky-100">이번 달 예상 청구액</div>
+          <div className="rounded-3xl border border-slate-300 bg-gradient-to-br from-slate-700 to-slate-800 p-6 text-white shadow-lg">
+            <div className="text-sm font-semibold text-slate-200">이번 달 예상 청구액</div>
             <div className="mt-1 text-5xl font-extrabold">
               {bill.total.toLocaleString()}
               <span className="ml-2 text-2xl font-semibold">원</span>
             </div>
-            <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1 text-sm text-slate-800">
+            <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-800">
               <span className={`rounded-full px-2 py-0.5 ${tierColor} font-semibold`}>
                 {bill.tier.tierName}
               </span>
               <span>{bill.tier.range}</span>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
-              <div className="rounded-xl bg-white/15 p-3">
-                <div className="text-sky-100">전력량 요금</div>
+              <div className="rounded-xl bg-white/12 p-3">
+                <div className="text-slate-200">전력량 요금</div>
                 <div className="mt-1 text-base font-bold text-white">
                   {Math.round(bill.energyCharge).toLocaleString()}원
                 </div>
               </div>
-              <div className="rounded-xl bg-white/15 p-3">
-                <div className="text-sky-100">부가세 + 기금</div>
+              <div className="rounded-xl bg-white/12 p-3">
+                <div className="text-slate-200">부가세 + 기금</div>
                 <div className="mt-1 text-base font-bold text-white">
                   {(bill.vat + bill.fundCharge).toLocaleString()}원
                 </div>
