@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { calculateBill, calculateSavings } from "@/lib/electricity";
 
 const PRODUCT_ITEMS = [
@@ -50,10 +50,35 @@ const FAQ_ITEMS = [
 ];
 
 const ONE_ROOM_AVERAGE_USAGE = 220;
+const HISTORY_KEY = "electricity-history-v1";
+const MAX_HISTORY = 5;
+
+type UsageHistory = {
+  usage: number;
+  total: number;
+  savedAt: string;
+};
 
 export default function Home() {
   const [usage, setUsage] = useState(250);
   const [reduceAmount, setReduceAmount] = useState(30);
+  const [history, setHistory] = useState<UsageHistory[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw) as UsageHistory[];
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(
+        (item) =>
+          typeof item?.usage === "number" &&
+          typeof item?.total === "number" &&
+          typeof item?.savedAt === "string"
+      );
+    } catch {
+      return [];
+    }
+  });
 
   const safeUsage = Math.max(0, usage || 0);
   const reducedUsage = Math.max(0, safeUsage - reduceAmount);
@@ -65,6 +90,58 @@ export default function Home() {
   const usageGapRate = Math.round(
     (Math.abs(usageGap) / ONE_ROOM_AVERAGE_USAGE) * 100
   );
+
+  const saveCurrentRecord = () => {
+    const record: UsageHistory = {
+      usage: safeUsage,
+      total: bill.total,
+      savedAt: new Date().toISOString(),
+    };
+    const deduped = history.filter(
+      (item) => !(item.usage === record.usage && item.total === record.total)
+    );
+    const next = [record, ...deduped].slice(0, MAX_HISTORY);
+    setHistory(next);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+  };
+
+  const clearHistory = () => {
+    setHistory([]);
+    localStorage.removeItem(HISTORY_KEY);
+  };
+
+  const chartData = useMemo(() => history.slice().reverse(), [history]);
+  const chartStats = useMemo(() => {
+    if (!chartData.length) return null;
+    const totals = chartData.map((item) => item.total);
+    return {
+      min: Math.min(...totals),
+      max: Math.max(...totals),
+    };
+  }, [chartData]);
+
+  const chartPoints = useMemo(() => {
+    if (!chartStats || chartData.length === 0) return "";
+    const width = 360;
+    const height = 180;
+    const padding = 20;
+    const usableWidth = width - padding * 2;
+    const usableHeight = height - padding * 2;
+    return chartData
+      .map((item, index) => {
+        const x =
+          chartData.length === 1
+            ? width / 2
+            : padding + (index / (chartData.length - 1)) * usableWidth;
+        const yRatio =
+          chartStats.max === chartStats.min
+            ? 0.5
+            : (item.total - chartStats.min) / (chartStats.max - chartStats.min);
+        const y = padding + (1 - yRatio) * usableHeight;
+        return `${x},${y}`;
+      })
+      .join(" ");
+  }, [chartData, chartStats]);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -201,6 +278,42 @@ export default function Home() {
                   한전에서 사용량 확인
                 </a>
               </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  onClick={saveCurrentRecord}
+                  className="rounded-lg bg-sky-600 px-3 py-2 text-xs font-semibold text-white hover:bg-sky-700"
+                >
+                  현재 값 기록 저장
+                </button>
+                {history.length > 0 && (
+                  <button
+                    onClick={clearHistory}
+                    className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                  >
+                    기록 초기화
+                  </button>
+                )}
+              </div>
+              {history.length > 0 && (
+                <div className="mt-3 rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="text-xs font-semibold text-slate-700">
+                    최근 저장 기록 ({history.length}/{MAX_HISTORY})
+                  </div>
+                  <div className="mt-2 space-y-1 text-xs text-slate-600">
+                    {history.map((item) => (
+                      <div
+                        key={`${item.savedAt}-${item.usage}-${item.total}`}
+                        className="flex items-center justify-between rounded-lg bg-slate-50 px-2 py-1"
+                      >
+                        <span>{item.usage}kWh</span>
+                        <span className="font-semibold text-slate-800">
+                          {item.total.toLocaleString()}원
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -387,6 +500,61 @@ export default function Home() {
               본 섹션은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받을 수 있습니다.
             </p>
           </div>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold">지난 기록 비교 그래프</h2>
+          <p className="mt-1 text-sm text-slate-600">
+            최근 저장한 기록 기준으로 예상 전기요금 변화를 비교합니다.
+          </p>
+          {chartData.length >= 2 ? (
+            <div className="mt-4">
+              <svg
+                viewBox="0 0 360 180"
+                className="h-48 w-full rounded-xl border border-slate-200 bg-slate-50 p-2"
+                role="img"
+                aria-label="전기요금 비교 라인 그래프"
+              >
+                <polyline
+                  fill="none"
+                  stroke="#0ea5e9"
+                  strokeWidth="3"
+                  points={chartPoints}
+                />
+                {chartPoints.split(" ").map((point) => {
+                  const [cx, cy] = point.split(",");
+                  return (
+                    <circle
+                      key={`${cx}-${cy}`}
+                      cx={cx}
+                      cy={cy}
+                      r="4"
+                      fill="#0369a1"
+                    />
+                  );
+                })}
+              </svg>
+              <div className="mt-2 grid gap-2 text-xs text-slate-600 sm:grid-cols-2">
+                {chartData.map((item, index) => (
+                  <div
+                    key={`${item.savedAt}-${item.total}-${index}`}
+                    className="flex items-center justify-between rounded-lg bg-slate-50 px-2 py-1"
+                  >
+                    <span>
+                      {index + 1}차 · {item.usage}kWh
+                    </span>
+                    <span className="font-semibold text-slate-800">
+                      {item.total.toLocaleString()}원
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+              비교 그래프를 보려면 기록을 2개 이상 저장해 주세요.
+            </div>
+          )}
         </div>
 
         <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
