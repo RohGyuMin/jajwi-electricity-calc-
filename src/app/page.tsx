@@ -8,25 +8,25 @@ const PRODUCT_ITEMS = [
   {
     name: "문풍지 (접착식)",
     desc: "틈새 바람을 줄여 난방비 절감에 도움",
-    price: "5,000원대",
-    href: "https://link.coupang.com/a/dNCZrW",
+    price: "실시간 가격",
+    href: "https://www.coupang.com/vp/products/8397270131?itemId=24271998324&vendorItemId=93672795991&src=1139000&spec=10799999&addtag=400&ctag=8397270131&lptag=AF4794871&itime=20260217010640&pageType=PRODUCT&pageValue=8397270131&wPcid=17682023452395667593736&wRef=&wTime=20260217010640&redirect=landing&traceid=V0-181-71917c5bd76b4958&mcid=a5390f10b62f479db30ebbfdda81d46a&campaignid=&clickBeacon=&imgsize=&pageid=&sig=&subid=&campaigntype=&puid=&ctime=&portal=&landing_exp=&placementid=&puidType=&contentcategory=&tsource=&deviceid=&contenttype=&token=&impressionid=&requestid=&contentkeyword=&offerId=&sfId=&subparam=",
   },
   {
     name: "단열 커튼",
     desc: "실내 열손실 감소, 체감온도 유지",
-    price: "15,000원대",
-    href: "https://link.coupang.com/a/dNC4Zo",
+    price: "실시간 가격",
+    href: "https://www.coupang.com/vp/products/8729454920?itemId=25363114712&vendorItemId=92357370321&src=1139000&spec=10799999&addtag=400&ctag=8729454920&lptag=AF4794871&itime=20260217010511&pageType=PRODUCT&pageValue=8729454920&wPcid=17682023452395667593736&wRef=&wTime=20260217010511&redirect=landing&traceid=V0-181-b73ce73b194683a2&mcid=b517b7c426114e31ba71602342c9597d&campaignid=&clickBeacon=&imgsize=&pageid=&sig=&subid=&campaigntype=&puid=&ctime=&portal=&landing_exp=&placementid=&puidType=&contentcategory=&tsource=&deviceid=&contenttype=&token=&impressionid=&requestid=&contentkeyword=&offerId=&sfId=&subparam=",
   },
   {
     name: "전기장판",
     desc: "저전력 보조 난방으로 비용 절감",
-    price: "30,000원대",
+    price: "40,000원대",
     href: "https://www.coupang.com/np/search?q=%EC%A0%84%EA%B8%B0%EC%9E%A5%ED%8C%90",
   },
   {
     name: "타이머 콘센트",
     desc: "자동 ON/OFF로 사용시간 관리",
-    price: "8,000원대",
+    price: "10,000원대",
     href: "https://www.coupang.com/np/search?q=%ED%83%80%EC%9D%B4%EB%A8%B8+%EC%BD%98%EC%84%BC%ED%8A%B8",
   },
 ];
@@ -378,7 +378,7 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="mt-3 inline-flex items-center rounded-lg bg-sky-600 px-3 py-2 text-xs font-bold text-white transition group-hover:bg-sky-700">
-                    최저가 확인하고 바로 구매하기
+                    가성비 특가 바로 보기
                   </div>
                 </a>
               ))}
