@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { calculateBill, calculateSavings } from "@/lib/electricity";
 
@@ -242,6 +243,31 @@ export default function Home() {
           <p className="mt-3 text-xs text-slate-500">
             * 쿠팡파트너스 제휴 링크 (실제 연동 예정)
           </p>
+        </div>
+
+        {/* 롱테일 페이지 내부 링크 */}
+        <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+          <h2 className="text-lg font-semibold mb-4">🔎 전기요금 상세 가이드</h2>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Link
+              href="/원룸-전기세-계산기"
+              className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+            >
+              원룸 전기세 계산기
+            </Link>
+            <Link
+              href="/전기히터-전기세-계산기"
+              className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+            >
+              전기히터 전기세 계산기
+            </Link>
+            <Link
+              href="/전기장판-전기요금"
+              className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+            >
+              전기장판 전기요금
+            </Link>
+          </div>
         </div>
 
         {/* 광고 슬롯 2 */}
