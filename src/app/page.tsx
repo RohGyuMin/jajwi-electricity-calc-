@@ -1,100 +1,15 @@
-<<<<<<< HEAD
-import Image from "next/image";
-
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-=======
 "use client";
 
 import { useState } from "react";
 import { calculateBill, calculateSavings } from "@/lib/electricity";
-import AdSense from "@/components/AdSense";
-
-const ONE_ROOM_AVERAGE_USAGE = 220;
 
 export default function Home() {
   const [usage, setUsage] = useState(250); // 월간 사용량 (kWh)
-  const [lastMonthUsage, setLastMonthUsage] = useState(220); // 지난달 사용량 (kWh)
   const [reduceAmount, setReduceAmount] = useState(30); // 절약 목표량
 
-  // 음수/NaN 방지
-  const safeUsage = Math.max(0, usage || 0);
-  const safeLastMonthUsage = Math.max(0, lastMonthUsage || 0);
-  const bill = calculateBill(safeUsage);
-  const lastMonthBill = calculateBill(safeLastMonthUsage);
-  const reducedBill = calculateBill(Math.max(0, safeUsage - reduceAmount));
-  const savings = calculateSavings(safeUsage, Math.max(0, safeUsage - reduceAmount));
-  const usageDelta = safeUsage - ONE_ROOM_AVERAGE_USAGE;
-  const usageDeltaPercent = Math.round(
-    (Math.abs(usageDelta) / ONE_ROOM_AVERAGE_USAGE) * 100
-  );
-  const billDelta = bill.total - lastMonthBill.total;
-  const billDeltaPercent =
-    lastMonthBill.total > 0
-      ? Math.round((Math.abs(billDelta) / lastMonthBill.total) * 100)
-      : 0;
-  const annualSavings = savings * 12;
-  const savingsPercent =
-    bill.total > 0 ? Math.round((savings / bill.total) * 100) : 0;
+  const bill = calculateBill(usage);
+  const reducedBill = calculateBill(Math.max(0, usage - reduceAmount));
+  const savings = calculateSavings(usage, Math.max(0, usage - reduceAmount));
 
   // 누진구간 색상
   const tierColor =
@@ -109,34 +24,11 @@ export default function Home() {
       <section className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12">
         {/* HERO + 계산기 입력 */}
         <div className="mb-8">
-          {/* 미니 배지 */}
-          <div className="mb-3 flex flex-wrap gap-2">
-            <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
-              자취생 추천
-            </span>
-            <span className="inline-flex items-center rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700">
-              겨울 난방비 특화
-            </span>
-            <span
-              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
-                usageDelta > 0
-                  ? "bg-red-100 text-red-700"
-                  : usageDelta < 0
-                  ? "bg-emerald-100 text-emerald-700"
-                  : "bg-slate-200 text-slate-700"
-              }`}
-            >
-              원룸 평균 대비{" "}
-              {usageDelta === 0
-                ? "동일"
-                : `${usageDelta > 0 ? "+" : "-"}${Math.abs(usageDelta)}kWh (${usageDeltaPercent}%)`}
-            </span>
-          </div>
           <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-            ⚡ 고지서 기반 전기세 계산기
+            ⚡ 자취전기세 계산기
           </h1>
           <p className="mt-3 text-base text-slate-600 sm:text-lg">
-            자취 전기세 계산, 원룸 전기요금 미리 확인하세요
+            이번 달 전기세, 고지서 보기 전에 확인하세요
           </p>
 
           {/* 입력 카드 */}
@@ -150,69 +42,22 @@ export default function Home() {
                   type="number"
                   min="0"
                   step="10"
-                  className="flex-1 rounded-xl border-2 border-slate-300 px-4 py-3 text-xl sm:text-2xl font-bold focus:border-blue-500 focus:outline-none"
+                  className="flex-1 rounded-xl border-2 border-slate-300 px-4 py-3 text-2xl font-bold focus:border-blue-500 focus:outline-none"
                   value={usage}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    setUsage(isNaN(val) ? 0 : Math.max(0, val));
-                  }}
+                  onChange={(e) => setUsage(Number(e.target.value))}
                 />
-                <span className="text-lg sm:text-xl font-semibold text-slate-500">
-                  kWh
-                </span>
+                <span className="text-xl font-semibold text-slate-500">kWh</span>
               </div>
             </label>
             <p className="mt-2 text-xs text-slate-500">
-              💡 원룸 평균 200~300kWh
+              💡 고지서나 한전 앱에서 확인 가능 (원룸 평균 200~300kWh)
             </p>
-            <label className="mt-4 block">
-              <span className="text-sm font-semibold text-slate-700">
-                지난달 사용량 (비교용)
-              </span>
-              <div className="mt-2 flex items-center gap-3">
-                <input
-                  type="number"
-                  min="0"
-                  step="10"
-                  className="flex-1 rounded-xl border-2 border-slate-200 px-4 py-2 text-lg font-semibold focus:border-blue-500 focus:outline-none"
-                  value={lastMonthUsage}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    setLastMonthUsage(isNaN(val) ? 0 : Math.max(0, val));
-                  }}
-                />
-                <span className="text-base font-semibold text-slate-500">kWh</span>
-              </div>
-            </label>
-
-            {/* 버튼 영역 */}
-            <div className="mt-4 flex gap-2">
-              <a
-                href="https://cyber.kepco.co.kr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
-              >
-                <span>📱</span>
-                <span>한전에서 사용량 확인</span>
-              </a>
-              <button
-                onClick={() => {
-                  setUsage(250);
-                  setLastMonthUsage(220);
-                  setReduceAmount(30);
-                }}
-                className="rounded-xl border-2 border-slate-300 px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
-              >
-                초기화
-              </button>
-            </div>
           </div>
         </div>
 
         {/* 결과 표시 - 예상 청구액 */}
-        <div className="mb-6 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-6 text-white shadow-xl">
-          <div className="text-sm font-medium opacity-90">⚡ 예상 청구 금액</div>
+        <div className="mb-6 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 p-6 text-white shadow-xl">
+          <div className="text-sm font-medium opacity-90">예상 청구 금액</div>
           <div className="mt-1 text-5xl font-bold">
             {bill.total.toLocaleString()}
             <span className="text-2xl ml-2">원</span>
@@ -223,35 +68,13 @@ export default function Home() {
             </span>
             <span>{bill.tier.range}</span>
           </div>
-          <div className="mt-4 rounded-xl bg-white/10 p-4">
-            <div className="text-xs uppercase tracking-wide opacity-80">
-              이번 달 예상 전기세 vs 지난달
-            </div>
-            <div className="mt-1 flex items-end gap-2">
-              <span className="text-2xl font-bold">
-                {billDelta > 0 ? "+" : billDelta < 0 ? "-" : ""}
-                {Math.abs(billDelta).toLocaleString()}원
-              </span>
-              <span className="text-sm opacity-85">
-                {billDelta === 0 ? "변동 없음" : `${billDeltaPercent}% ${billDelta > 0 ? "증가" : "감소"}`}
-              </span>
-            </div>
-            <div className="mt-1 text-xs opacity-85">
-              이번 달 {bill.total.toLocaleString()}원 / 지난달 {lastMonthBill.total.toLocaleString()}원
-            </div>
-          </div>
-        </div>
-
-        {/* 광고 슬롯 1 - 결과 바로 아래 (최고 전환 위치) */}
-        <div className="mb-6">
-          <AdSense slot="1234567890" format="horizontal" />
         </div>
 
         {/* 누진구간 시각화 */}
         <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
-          <h2 className="text-lg font-semibold mb-4">📊 전기요금 누진구간 현황</h2>
+          <h2 className="text-lg font-semibold mb-4">누진구간 현황</h2>
 
-          {/* 프로그레스 바 - 400kWh 기준 */}
+          {/* 프로그레스 바 */}
           <div className="relative h-8 rounded-full bg-slate-100 overflow-hidden">
             <div
               className={`absolute h-full transition-all duration-500 ${
@@ -262,13 +85,14 @@ export default function Home() {
                   : "bg-red-500"
               }`}
               style={{
-                width: `${Math.min((safeUsage / 400) * 100, 100)}%`,
+                width: `${Math.min((usage / 500) * 100, 100)}%`,
               }}
             />
             <div className="absolute inset-0 flex items-center justify-between px-3 text-xs font-semibold">
               <span className="text-slate-600">0</span>
               <span className="text-slate-600">200</span>
-              <span className="text-slate-600 font-bold text-red-600">400 초과 주의!</span>
+              <span className="text-slate-600">400</span>
+              <span className="text-slate-600">500+</span>
             </div>
           </div>
 
@@ -307,7 +131,7 @@ export default function Home() {
 
         {/* 절약 시뮬레이터 */}
         <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
-          <h2 className="text-lg font-semibold mb-4">💰 전기세 절약 시뮬레이터</h2>
+          <h2 className="text-lg font-semibold mb-4">💰 절약 시뮬레이터</h2>
           <p className="text-sm text-slate-600 mb-4">
             사용량을 얼마나 줄이면 얼마를 절약할 수 있을까요?
           </p>
@@ -319,7 +143,7 @@ export default function Home() {
             <input
               type="range"
               min="0"
-              max={Math.min(safeUsage, 100)}
+              max={Math.min(usage, 100)}
               step="5"
               className="mt-2 w-full"
               value={reduceAmount}
@@ -327,24 +151,16 @@ export default function Home() {
             />
           </label>
 
-          <div className="mt-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 p-5 border border-emerald-200">
+          <div className="mt-4 rounded-lg bg-green-50 p-4 border border-green-200">
             <div className="text-sm text-green-800">
               {reduceAmount}kWh 줄이면
             </div>
-            <div className="text-5xl font-extrabold text-green-700 mt-1 leading-none">
+            <div className="text-3xl font-bold text-green-700 mt-1">
               {savings.toLocaleString()}원 절약
             </div>
-            <div className="mt-2 text-base font-semibold text-emerald-700">
-              현재 예상요금의 약 {savingsPercent}% 절감
-            </div>
-            <div className="text-sm text-green-700 mt-1">
-              1년 기준 약 {annualSavings.toLocaleString()}원 절약 가능
-            </div>
             <div className="text-sm text-green-600 mt-2">
-              {safeUsage}kWh → {Math.max(0, safeUsage - reduceAmount)}kWh
-              <span className="ml-2">
-                ({reducedBill.tier.tierName})
-              </span>
+              {usage}kWh → {Math.max(0, usage - reduceAmount)}kWh
+              <span className="ml-2">({reducedBill.tier.tierName})</span>
             </div>
           </div>
 
@@ -367,7 +183,7 @@ export default function Home() {
 
         {/* 절약 팁 */}
         <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
-          <h2 className="text-lg font-semibold mb-4">🔥 자취생 겨울철 전기요금 절약 팁</h2>
+          <h2 className="text-lg font-semibold mb-4">🔥 겨울철 난방비 절약 팁</h2>
           <div className="space-y-3">
             {[
               {
@@ -428,67 +244,25 @@ export default function Home() {
           </p>
         </div>
 
-        {/* FAQ 섹션 - SEO */}
-        <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
-          <h2 className="text-lg font-semibold mb-4">💬 자주 묻는 질문</h2>
-          <div className="space-y-4">
-            <details className="group">
-              <summary className="cursor-pointer font-medium text-slate-900 hover:text-blue-600">
-                kWh(사용량)는 어디서 확인하나요?
-              </summary>
-              <p className="mt-2 text-sm text-slate-600 pl-4">
-                한전 앱(한전ON), 한전 사이버지점(cyber.kepco.co.kr), 또는 매월 받는 전기요금 고지서에서 확인할 수 있습니다.
-              </p>
-            </details>
-            <details className="group">
-              <summary className="cursor-pointer font-medium text-slate-900 hover:text-blue-600">
-                누진구간이 뭔가요?
-              </summary>
-              <p className="mt-2 text-sm text-slate-600 pl-4">
-                전기 사용량이 많을수록 kWh당 요금이 비싸지는 제도입니다. 200kWh 이하(1단계), 201~400kWh(2단계), 400kWh 초과(3단계)로 나뉘며, 3단계는 1단계보다 약 2.7배 비쌉니다.
-              </p>
-            </details>
-            <details className="group">
-              <summary className="cursor-pointer font-medium text-slate-900 hover:text-blue-600">
-                실제 고지서와 금액이 달라요
-              </summary>
-              <p className="mt-2 text-sm text-slate-600 pl-4">
-                본 계산기는 주거용(저압) 기준 참고용입니다. TV수신료, 복지할인, 계절별 요금 차이 등에 따라 실제 청구액과 다를 수 있습니다.
-              </p>
-            </details>
-            <details className="group">
-              <summary className="cursor-pointer font-medium text-slate-900 hover:text-blue-600">
-                원룸 평균 전기 사용량은?
-              </summary>
-              <p className="mt-2 text-sm text-slate-600 pl-4">
-                1인 가구 원룸 기준 월 평균 150~250kWh입니다. 여름/겨울 냉난방기 사용 시 300~400kWh까지 올라갈 수 있습니다.
-              </p>
-            </details>
+        {/* 광고 슬롯 2 */}
+        <div className="mb-6 rounded-2xl border-2 border-dashed border-slate-300 p-8 text-center">
+          <div className="text-sm text-slate-400">Google AdSense 광고 영역</div>
+          <div className="text-xs text-slate-400 mt-1">
+            (네이티브 광고 - 결과 하단)
           </div>
-        </div>
-
-        {/* 광고 슬롯 2 - 페이지 하단 */}
-        <div className="mb-6">
-          <AdSense slot="0987654321" format="rectangle" />
         </div>
 
         {/* Footer */}
         <footer className="mt-10 text-center text-xs text-slate-500 space-y-1">
-          <div className="rounded-lg bg-amber-50 px-4 py-2 text-amber-700 font-medium inline-block">
-            ⚠️ 본 계산기는 참고용이며, 실제 청구 금액과 다를 수 있습니다
+          <div>
+            요금 계산은 한국전력 주거용 저압 요금표(2024년 기준)를 따릅니다.
           </div>
-          <div className="mt-2">
-            요금 계산은 한국전력 주거용(저압) 요금표 기준입니다.
-          </div>
-          <div className="text-slate-400">
-            고압 사용자 및 기타 계약 유형은 요금이 다를 수 있습니다.
-          </div>
+          <div>실제 청구 금액과 다소 차이가 있을 수 있습니다.</div>
           <div className="mt-3 text-slate-400">
             © 2026 자취전기세 계산기 | 문의: contact@example.com
           </div>
         </footer>
       </section>
     </main>
->>>>>>> 2adc14c (feat: add electricity bill calculator MVP)
   );
 }
