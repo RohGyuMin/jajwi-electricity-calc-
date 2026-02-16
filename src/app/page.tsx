@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculateBill, calculateSavings } from "@/lib/electricity";
 
 const PRODUCT_ITEMS = [
@@ -62,6 +62,14 @@ type UsageHistory = {
 export default function Home() {
   const [usage, setUsage] = useState(250);
   const [reduceAmount, setReduceAmount] = useState(30);
+  const [animatedUsage, setAnimatedUsage] = useState(0);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() =>
+      setAnimatedUsage(Math.max(0, usage || 0))
+    );
+    return () => cancelAnimationFrame(id);
+  }, [usage]);
   const [history, setHistory] = useState<UsageHistory[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -358,7 +366,9 @@ export default function Home() {
                     ? "bg-blue-500"
                     : "bg-indigo-500"
                 }`}
-                style={{ width: `${Math.min((safeUsage / 400) * 100, 100)}%` }}
+                style={{
+                  width: `${Math.min((animatedUsage / 400) * 100, 100)}%`,
+                }}
               />
               <div className="absolute inset-0 flex items-center justify-between px-3 text-xs font-semibold text-slate-600">
                 <span>0</span>
