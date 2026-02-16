@@ -7,9 +7,9 @@ import { calculateBill, calculateSavings } from "@/lib/electricity";
 const PRODUCT_ITEMS = [
   {
     name: "문풍지 (접착식)",
-    desc: "외풍 차단으로 난방 효율 개선",
+    desc: "틈새 바람을 줄여 난방비 절감에 도움",
     price: "5,000원대",
-    href: "https://www.coupang.com/np/search?q=%EB%AC%B8%ED%92%8D%EC%A7%80",
+    href: "https://link.coupang.com/a/dNCZrW",
   },
   {
     name: "단열 커튼",
