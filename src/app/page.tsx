@@ -222,14 +222,14 @@ export default function Home() {
             </p>
 
             <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <label className="block">
+              <label className="block w-full overflow-hidden">
                 <span className="text-sm font-semibold text-slate-700">월간 전기 사용량</span>
-                <div className="mt-2 flex items-center gap-3">
+                <div className="mt-2 flex w-full items-center gap-3 overflow-hidden">
                   <input
                     type="number"
                     min="0"
                     step="10"
-                    className="flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 text-2xl font-bold text-slate-900 focus:border-sky-500 focus:outline-none"
+                    className="flex-1 w-full max-w-full box-border rounded-xl border border-slate-300 bg-white px-4 py-3 text-2xl font-bold text-slate-900 focus:border-sky-500 focus:outline-none"
                     value={usage}
                     onChange={(e) => {
                       const val = Number(e.target.value);
