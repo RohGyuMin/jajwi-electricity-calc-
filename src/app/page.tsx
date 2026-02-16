@@ -87,7 +87,7 @@ export default function Home() {
       : "text-indigo-700 bg-indigo-50";
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-sky-50 text-slate-900">
+    <main className="min-h-screen overflow-x-hidden bg-gradient-to-b from-slate-50 via-white to-sky-50 text-slate-900">
       <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
         <script
           type="application/ld+json"
